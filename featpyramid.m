@@ -29,7 +29,7 @@ im = double(im);
 
 for i = 1:interval
   scaled = imresize(im, 1/sc^(i-1));
-  size(scaled)
+  
   % "first" 2x interval
   pyra.feat{i} = features(scaled, sbin/2);
   pyra.scales(i) = 2/sc^(i-1);
