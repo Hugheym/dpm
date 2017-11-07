@@ -24,8 +24,13 @@ pyra.imsize = imsize;
 
 % our resize function wants floating point values
 im = double(im);
+
+
+size(im)
+memory
 for i = 1:interval
-  scaled = resize(im, 1/sc^(i-1));
+  scaled = imresize(im, 1/sc^(i-1));
+  size(scaled)
   % "first" 2x interval
   pyra.feat{i} = features(scaled, sbin/2);
   pyra.scales(i) = 2/sc^(i-1);

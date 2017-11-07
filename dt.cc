@@ -47,16 +47,16 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
   if (mxGetClassID(prhs[0]) != mxDOUBLE_CLASS)
     mexErrMsgTxt("Invalid input");
 
-  const int *dims = mxGetDimensions(prhs[0]);
+  const mwSize *dims = mxGetDimensions(prhs[0]);
   double *vals = (double *)mxGetPr(prhs[0]);
   double ax = mxGetScalar(prhs[1]);
   double bx = mxGetScalar(prhs[2]);
   double ay = mxGetScalar(prhs[3]);
   double by = mxGetScalar(prhs[4]);
   
-  mxArray *mxM = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
-  mxArray *mxIx = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-  mxArray *mxIy = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+  mxArray *mxM = mxCreateNumericArray(2,(const size_t*)  dims, mxDOUBLE_CLASS, mxREAL);
+  mxArray *mxIx = mxCreateNumericArray(2,(const size_t*)  dims, mxINT32_CLASS, mxREAL);
+  mxArray *mxIy = mxCreateNumericArray(2, (const size_t*) dims, mxINT32_CLASS, mxREAL);
   double *M = (double *)mxGetPr(mxM);
   int32_t *Ix = (int32_t *)mxGetPr(mxIx);
   int32_t *Iy = (int32_t *)mxGetPr(mxIy);

@@ -36,7 +36,7 @@ static inline int max(int x, int y) { return (x <= y ? y : x); }
 // returns HOG features
 mxArray *process(const mxArray *mximage, const mxArray *mxsbin) {
   double *im = (double *)mxGetPr(mximage);
-  const int *dims = mxGetDimensions(mximage);
+  const mwSize *dims = mxGetDimensions(mximage);
   if (mxGetNumberOfDimensions(mximage) != 3 ||
       dims[2] != 3 ||
       mxGetClassID(mximage) != mxDOUBLE_CLASS)
@@ -48,15 +48,18 @@ mxArray *process(const mxArray *mximage, const mxArray *mxsbin) {
   int blocks[2];
   blocks[0] = (int)round((double)dims[0]/(double)sbin);
   blocks[1] = (int)round((double)dims[1]/(double)sbin);
+
   double *hist = (double *)mxCalloc(blocks[0]*blocks[1]*18, sizeof(double));
   double *norm = (double *)mxCalloc(blocks[0]*blocks[1], sizeof(double));
-
+   
   // memory for HOG features
-  int out[3];
+  mwSize out[3];
   out[0] = max(blocks[0]-2, 0);
   out[1] = max(blocks[1]-2, 0);
   out[2] = 27+4+1;
+
   mxArray *mxfeat = mxCreateNumericArray(3, out, mxDOUBLE_CLASS, mxREAL);
+
   double *feat = (double *)mxGetPr(mxfeat);
   
   int visible[2];

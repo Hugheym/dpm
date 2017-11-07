@@ -253,6 +253,7 @@ end
 
 for level = levels
   % compute filter response for all filters at this level
+
   r = fconv(pyra.feat{level}, filters, 1, length(filters));
   % find max response array size for this level
   s = [-inf -inf];

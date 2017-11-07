@@ -13,7 +13,7 @@ n = length(model.rules{model.start}(1).rhs);
 % n*4+2 := 4 coordinates per boxes plus the component index 
 % and score
 b = zeros(size(boxes, 1), n*4+2);
-maxc = max(boxes(:,end-1));
+maxc = max(boxes(:,max(end-1,1)));
 for i = 1:maxc
   % process boxes for component i
   I = find(boxes(:,end-1) == i);

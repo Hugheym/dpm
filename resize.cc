@@ -84,7 +84,7 @@ void resize1dtran(double *src, int sheight, double *dst, int dheight,
 // returns resized image
 mxArray *resize(const mxArray *mxsrc, const mxArray *mxscale) {
   double *src = (double *)mxGetPr(mxsrc);
-  const int *sdims = mxGetDimensions(mxsrc);
+  const mwSize *sdims = mxGetDimensions(mxsrc);
   if (mxGetNumberOfDimensions(mxsrc) != 3 || 
       mxGetClassID(mxsrc) != mxDOUBLE_CLASS)
     mexErrMsgTxt("Invalid input");  
@@ -93,11 +93,12 @@ mxArray *resize(const mxArray *mxsrc, const mxArray *mxscale) {
   if (scale > 1)
     mexErrMsgTxt("Invalid scaling factor");   
 
-  int ddims[3];
+  mwSize ddims[3];
   ddims[0] = (int)round(sdims[0]*scale);
   ddims[1] = (int)round(sdims[1]*scale);
   ddims[2] = sdims[2];
-  mxArray *mxdst = mxCreateNumericArray(3, ddims, mxDOUBLE_CLASS, mxREAL);
+
+  mxArray *mxdst = mxCreateNumericArray(3,   ddims, mxDOUBLE_CLASS, mxREAL);
   double *dst = (double *)mxGetPr(mxdst);
 
   double *tmp = (double *)mxCalloc(ddims[0]*sdims[1]*sdims[2], sizeof(double));

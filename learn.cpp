@@ -139,19 +139,21 @@ struct collapsed {
 // the two node types in an AND/OR tree
 enum node_type { OR, AND };
 
-// set of collapsed examples
-struct data {
-  collapsed *x;
-  int num;
-  int numblocks;
-  int numcomponents;
-  int *blocksizes;
-  int *componentsizes;
-  int **componentblocks;
-  float *regmult;
-  float *learnmult;
-};
 
+namespace myname {
+	// set of collapsed examples
+	struct data {
+		collapsed *x;
+		int num;
+		int numblocks;
+		int numcomponents;
+		int *blocksizes;
+		int *componentsizes;
+		int **componentblocks;
+		float *regmult;
+		float *learnmult;
+	};
+}
 // seed the random number generator with an arbitrary (fixed) value
 void seed_rand() {
   srand48(3);
@@ -162,7 +164,7 @@ static inline double min(double x, double y) { return (x <= y ? x : y); }
 static inline double max(double x, double y) { return (x <= y ? y : x); }
 
 // compute the score of an example
-static inline double ex_score(const char *ex, data X, double **w) {
+static inline double ex_score(const char *ex, myname::data X, double **w) {
   double val = 0.0;
   float *data = EX_DATA(ex);
   int blocks = NUM_NONZERO(ex);
@@ -182,7 +184,7 @@ static inline double ex_score(const char *ex, data X, double **w) {
 // out[0] : loss on negative examples
 // out[1] : loss on positive examples
 // out[2] : regularization term's value
-double compute_loss(double out[3], double C, double J, data X, double **w) {
+double compute_loss(double out[3], double C, double J, myname::data X, double **w) {
   double loss = 0.0;
 #if FULL_L2
   // compute ||w||^2
@@ -250,7 +252,7 @@ double compute_loss(double out[3], double C, double J, data X, double **w) {
 }
 
 // gradient descent
-void gd(double C, double J, data X, double **w, double **lb, char *logdir, char *logtag) {
+void gd(double C, double J, myname::data X, double **w, double **lb, char *logdir, char *logtag) {
   ofstream logfile;
   string filepath = string(logdir) + "/learnlog/" + string(logtag) + ".log";
  
@@ -434,7 +436,7 @@ void gd(double C, double J, data X, double **w, double **lb, char *logdir, char 
 }
 
 // score examples
-double *score(data X, char **examples, int num, double **w) {
+double *score(myname::data X, char **examples, int num, double **w) {
   double *s = (double *)malloc(sizeof(double)*num);
   check(s != NULL);
   for (int i = 0; i < num; i++)
@@ -443,7 +445,7 @@ double *score(data X, char **examples, int num, double **w) {
 }
 
 // merge examples with identical labels
-void collapse(data *X, char **examples, int num) {
+void collapse(myname::data *X, char **examples, int num) {
   collapsed *x = (collapsed *)malloc(sizeof(collapsed)*num);
   check(x != NULL);
   int i = 0;
@@ -466,7 +468,7 @@ void collapse(data *X, char **examples, int num) {
 int main(int argc, char **argv) {  
   seed_rand();
   int count;
-  data X;
+  myname::data X;
 
   // command line arguments
   check(argc == 12);
