@@ -26,8 +26,7 @@ pyra.imsize = imsize;
 im = double(im);
 
 
-size(im)
-memory
+
 for i = 1:interval
   scaled = imresize(im, 1/sc^(i-1));
   size(scaled)
