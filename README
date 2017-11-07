@@ -10,7 +10,7 @@ and move the executable file to the current directory.
 The third step is to modify globals.m, where the comments will 
 guide you to make the configuration. 
 
-The code is tested on windows 8 x64 successfully.
+The code is tested on windows 10 x64 successfully.
 
 The orignal README is shown below:
 
