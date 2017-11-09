@@ -1,7 +1,8 @@
-mex -O resize.cc
-mex -O dt.cc
-mex -O features.cc
-mex -O getdetections.cc
+mex -g resize.cc
+mex -g dt.cc
+mex -g features.cc
+mex -g getdetections.cc
+mex -g fconv.cc
 
 % use one of the following depending on your setup
 % 0 is fastest, 3 is slowest 

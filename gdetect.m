@@ -161,7 +161,7 @@ function model = apply_structural_rule(model, r, pady, padx)
 % prepare score for this rule
 score = model.scoretpt;
 for i = 1:length(score)
-  score{i}(:) = r.offset.w;
+  score{i}(:) = model_get_block(model,r.offset);% r.offset.w;
 end
 
 % sum scores from rhs (with appropriate shift and down sample)
@@ -214,12 +214,13 @@ function model = apply_deformation_rule(model, r)
 % r      deformation rule
 
 % deformation rule -> apply distance transform
-def = r.def.w;
+
+def = model_get_block(model, r.def);%    r.def.w;
 score = model.symbols(r.rhs(1)).score;
 for i = 1:length(score)
   % Note: dt has been changed so that we no longer have to pass in -score{i}
   [score{i}, Ix{i}, Iy{i}] = dt(score{i}, def(1), def(2), def(3), def(4));
-  score{i} = score{i} + r.offset.w;
+  score{i} = score{i} + model_get_block(model,r.offset);
 end
 model.rules{r.lhs}(r.i).score = score;
 model.rules{r.lhs}(r.i).Ix = Ix;
@@ -236,15 +237,21 @@ function model = filterresponses(model, pyra, latent, bbox, overlap)
 % overlap  overlap threshold
 
 % gather filters for computing match quality responses
+%for j=1:length(model.symbols)
+%  model.symbols(1,j).i=j;
+%end
+
 i = 1;
+j = 1
 filters = {};
 filter_to_symbol = [];
 for s = model.symbols
   if s.type == 'T'
-    filters{i} = model.filters(s.filter).w;
-    filter_to_symbol(i) = s.i;
-    i = i + 1;
+    filters{i} = model_get_block(model,model.filters(s.filter));%model.filters(s.filter).w;
+    filter_to_symbol(i) = j;
+    i = i+1;
   end
+  j = j+1;
 end
 
 % determine which levels to compute responses for (optimization
